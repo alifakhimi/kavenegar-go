@@ -10,23 +10,23 @@ import (
 	"time"
 )
 
-//ToString ...
+// ToString ...
 func ToString(i interface{}) string {
 	return strings.Trim(strings.Replace(fmt.Sprint(i), " ", ",", -1), "[]")
 }
 
-//ToJson ...
+// ToJson ...
 func ToJson(i interface{}) string {
 	_json, _ := json.Marshal(i)
 	return string(_json)
 }
 
-//ToUnix ...
+// ToUnix ...
 func ToUnix(t time.Time) string {
 	return strconv.FormatInt(t.Unix(), 10)
 }
 
-//structToUrlValues ...
+// structToUrlValues ...
 func structToURLValues(i interface{}) url.Values {
 	v := url.Values{}
 	if reflect.ValueOf(i).IsNil() {
@@ -43,7 +43,7 @@ func structToURLValues(i interface{}) url.Values {
 			}
 		}
 	}
-
+	
 	return v
 }
 
@@ -52,20 +52,20 @@ func structToMapString(i interface{}) map[string][]string {
 	ms := map[string][]string{}
 	iv := reflect.ValueOf(i).Elem()
 	tp := iv.Type()
-
+	
 	for i := 0; i < iv.NumField(); i++ {
 		k := tp.Field(i).Name
 		f := iv.Field(i)
 		ms[k] = valueToString(f)
 	}
-
+	
 	return ms
 }
 
 // valueToString converts supported type of f as slice string
 func valueToString(f reflect.Value) []string {
 	var v []string
-
+	
 	switch reflect.TypeOf(f.Interface()).Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		v = []string{strconv.FormatInt(f.Int(), 10)}
@@ -86,6 +86,6 @@ func valueToString(f reflect.Value) []string {
 	case reflect.String:
 		v = []string{f.String()}
 	}
-
+	
 	return v
 }
